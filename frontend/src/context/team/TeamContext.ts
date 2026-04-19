@@ -6,6 +6,7 @@ export interface ITeamContext {
     addTeams: (team: Team[]) => void;
     deleteTeam: (id: string) => void;
     teams: Team[];
+    updateTeam: (id: string, team: Team) => void;
 }
 
 export const TeamContext = createContext<ITeamContext | null>(null);

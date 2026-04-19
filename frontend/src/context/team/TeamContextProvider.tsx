@@ -17,8 +17,12 @@ export const TeamContextProvider = ({ children }: { children: ReactNode }) => {
         setTeams((prev) => prev.filter((t) => t.id !== id));
     }, []);
 
+    const updateTeam = (id: string, team: Team) => {
+        setTeams((prev) => prev.map((t) => (t.id === id ? { ...team } : t)));
+    };
+
     return (
-        <TeamContext.Provider value={{ addTeam, deleteTeam, teams, addTeams }}>
+        <TeamContext.Provider value={{ addTeam, deleteTeam, teams, addTeams, updateTeam }}>
             {children}
         </TeamContext.Provider>
     );

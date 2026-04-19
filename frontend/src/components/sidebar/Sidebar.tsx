@@ -36,8 +36,12 @@ const Sidebar = () => {
     const [showTeamModal, setShowTeamModal] = useState(false);
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
-
-
+    const [editTeam, setEditTeam] = useState({
+        id: "",
+        name: "",
+        description: "",
+    });
+    const [showEditTeam, setShowEditTeam] = useState(false);
     const [currentClickedOption, setCurrentClickedOption] =
         useState<string>("");
     const location = useLocation();
@@ -216,7 +220,44 @@ const Sidebar = () => {
                                                 >
                                                     Удалить
                                                 </button>
-                                                <button>Редактировать</button>
+                                                <button
+                                                    onClick={() => {
+                                                        setShowEditTeam(true);
+                                                        setEditTeam({
+                                                            description:
+                                                                t.description,
+                                                            id: t.id,
+                                                            name: t.name,
+                                                        });
+                                                    }}
+                                                >
+                                                    Редактировать
+                                                </button>
+                                                {showEditTeam && (
+                                                    <>
+                                                        {createPortal(
+                                                            <TeamModal
+                                                                descriptionProps={
+                                                                    editTeam.description
+                                                                }
+                                                                nameProps={
+                                                                    editTeam.name
+                                                                }
+                                                                editId={
+                                                                    editTeam.id
+                                                                }
+                                                                type="update"
+                                                                addTeam={
+                                                                    addTeam
+                                                                }
+                                                                setShowTeamModal={
+                                                                    setShowEditTeam
+                                                                }
+                                                            />,
+                                                            document.body,
+                                                        )}
+                                                    </>
+                                                )}
                                             </div>
                                         )}
                                 </li>
@@ -259,7 +300,8 @@ const Sidebar = () => {
                 )}
                 {showTeamModal &&
                     createPortal(
-                        <CreateTeamModal
+                        <TeamModal
+                            type="create"
                             addTeam={addTeam}
                             setShowTeamModal={setShowTeamModal}
                         />,
@@ -277,22 +319,33 @@ const Sidebar = () => {
     );
 };
 
-function CreateTeamModal({
+function TeamModal({
     setShowTeamModal,
     addTeam,
+    type,
+    editId,
+    nameProps,
+    descriptionProps,
 }: {
     setShowTeamModal: (val: boolean) => void;
     addTeam: (team: Team) => void;
+    type: "create" | "update";
+    editId?: string;
+    nameProps?: string;
+    descriptionProps?: string;
 }) {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const { updateTeam } = useTeamContext();
+    const [name, setName] = useState(type === "update" ? nameProps : "");
+    const [description, setDescription] = useState(
+        type === "update" ? descriptionProps : "",
+    );
     const inputRef = useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
         }
     }, [inputRef]);
-    const submitTeam = async (e: FormEvent<HTMLFormElement>) => {
+    const createTeam = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await fetch("http://localhost:8080/api/teams", {
@@ -309,12 +362,29 @@ function CreateTeamModal({
                     (await response.json()) as TeamCreateSuccessResponse;
                 addTeam(data.data.team);
                 setShowTeamModal(false);
-                setName("");
-                setDescription("");
             }
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const editTeam = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const response = await fetch(
+            `http://localhost:8080/api/teams/${editId}`,
+            {
+                method: "PATCH",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, description }),
+            },
+        );
+        const data = (await response.json()) as TeamCreateSuccessResponse;
+        updateTeam(editId ?? "", data.data.team);
+        setShowTeamModal(false);
     };
     return (
         <>
@@ -322,7 +392,17 @@ function CreateTeamModal({
                 onClick={() => setShowTeamModal(false)}
                 className={styles.overlay}
             ></div>
-            <Card onSubmit={submitTeam} className={styles.teamModal} tag="form">
+            <Card
+                onSubmit={(e) => {
+                    if (type === "create") {
+                        createTeam(e);
+                    } else {
+                        editTeam(e);
+                    }
+                }}
+                className={styles.teamModal}
+                tag="form"
+            >
                 <button
                     onClick={() => setShowTeamModal(false)}
                     className={styles.close}
@@ -363,7 +443,7 @@ function CreateTeamModal({
                     />
                 </Field>
                 <Button className={styles.submitTeamModal}>
-                    Создать команду
+                    {type === "create" ? "Создать команду" : "Обновить команду"}
                 </Button>
             </Card>
         </>
