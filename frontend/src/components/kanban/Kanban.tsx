@@ -1,6 +1,3 @@
-import { useParams } from "react-router";
-import Button from "../button/Button";
-import styles from "./kanban.module.css";
 import {
     Dispatch,
     FormEvent,
@@ -8,10 +5,13 @@ import {
     useEffect,
     useState,
 } from "react";
+import { createPortal } from "react-dom";
+import { useParams } from "react-router";
+import Button from "../button/Button";
 import Card from "../card/Card";
 import Field from "../field/Field";
 import Input from "../input/Input";
-import { createPortal } from "react-dom";
+import styles from "./kanban.module.css";
 
 export interface Task {
     id: string;
@@ -78,7 +78,7 @@ const Kanban = () => {
             ),
         );
 
-        await updatePositions(dropIndex);
+        await updatePositions(dropIndex, columnId, columnId);
     }
 
     function changeTaskColumn(
@@ -99,13 +99,19 @@ const Kanban = () => {
         setColumns((prev) =>
             prev.map((col) =>
                 col.id === toColumnId
-                    ? { ...col, tasks: [...col.tasks, task] }
+                    ? { ...col, tasks: [task, ...col.tasks] }
                     : col,
             ),
         );
+
+        updatePositions(0, fromColumnId, toColumnId);
     }
 
-    async function updatePositions(dropIndex: number) {
+    async function updatePositions(
+        dropIndex: number,
+        fromColumnId: string,
+        toColumnId: string,
+    ) {
         try {
             await fetch("http://localhost:8080/api/task/position", {
                 method: "PATCH",
@@ -116,6 +122,8 @@ const Kanban = () => {
                 },
                 body: JSON.stringify({
                     id: draggableId,
+                    from_column_id: fromColumnId,
+                    to_column_id: toColumnId,
                     new_position: dropIndex,
                 }),
             });
@@ -259,7 +267,19 @@ const Kanban = () => {
         <div className={styles.columns}>
             <ul className={styles.columnsList}>
                 {columns.map((col) => (
-                    <li key={col.id} className={styles.column}>
+                    <li
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => {
+                            e.preventDefault();
+                            changeTaskColumn(
+                                fromColumnIdState,
+                                draggableId,
+                                col.id,
+                            );
+                        }}
+                        key={col.id}
+                        className={styles.column}
+                    >
                         <span className={styles.columnTitle}>
                             {col.title}
                             <div className={styles.columnActions}>

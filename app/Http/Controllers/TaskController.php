@@ -57,20 +57,47 @@ class TaskController extends Controller
     public function updatePosition(Request $request)
     {
         $data = $request->validate([
-            "id" => "required|string",
+            "id" => "required|exists:tasks,id",
+            "from_column_id" => "required",
+            "to_column_id" => "required",
             "new_position" => "required|integer|min:0"
         ]);
+
         $task = Task::findOrFail($data['id']);
-        $oldPosition = $task->position;
-        $newPosition = $data['new_position'];
-        DB::transaction(function () use ($task, $oldPosition, $newPosition) {
-            if ($oldPosition > $newPosition) {
-                Task::where('position', '>=', $newPosition)->where('position', '<', $oldPosition)->increment('position');
+        $fromCol = $data['from_column_id'];
+        $toCol = $data['to_column_id'];
+        $oldPos = $task->position;
+        $newPos = $data['new_position'];
+
+        DB::transaction(function () use ($task, $fromCol, $toCol, $oldPos, $newPos) {
+
+            if ($fromCol !== $toCol) {
+
+                Task::where('column_id', $fromCol)
+                    ->where('position', '>', $oldPos)
+                    ->decrement('position');
+
+                Task::where('column_id', $toCol)
+                    ->increment('position');
+
+                $task->column_id = $toCol;
+                $task->position = 0;
             } else {
-                Task::where('position', '>', $oldPosition)->where('position', '<=', $newPosition)->decrement('position');
+                if ($oldPos > $newPos) {
+                    Task::where('column_id', $fromCol)
+                        ->whereBetween('position', [$newPos, $oldPos - 1])
+                        ->increment('position');
+                } else if ($oldPos < $newPos) {
+                    Task::where('column_id', $fromCol)
+                        ->whereBetween('position', [$oldPos + 1, $newPos])
+                        ->decrement('position');
+                }
+                $task->position = $newPos;
             }
-            $task->update(['position' => $newPosition]);
+
+            $task->save();
         });
+
         return response()->json(null, 204);
     }
 
