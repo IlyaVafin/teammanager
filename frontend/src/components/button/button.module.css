@@ -1,0 +1,27 @@
+.black {
+    background-color: var(--foreground);
+    color: var(--background);
+    border-radius: 8px;
+}
+
+.outline {
+    border: 1px solid var(--border);
+    background: none;
+    transition: background-color 0.5s ease;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.outlineButton:hover {
+    background-color: var(--muted);
+}
+
+.ghost {
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+}
+
+.ghost:hover {
+  background-color: white;
+}

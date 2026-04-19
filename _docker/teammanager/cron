@@ -1,0 +1,1 @@
+*/30 * * * * root cd /var/www && /usr/local/bin/php artisan sync-pixels --no-interaction >> /proc/1/fd/1 2>&1

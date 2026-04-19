@@ -1,0 +1,78 @@
+.createColumn {
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.columns {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex: 1;
+    width: 100%;
+    padding-top: 48px;
+}
+
+.columnsList {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+}
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 200px;
+    width: 100%;
+}
+.columnTitle {
+    display: flex;
+    background-color: var(--background);
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.columnAction.active {
+    background-color: var(--muted);
+}
+
+.createTaskButton {
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 10px;
+}
+
+.createTaskButton:hover {
+    background-color: var(--background);
+}
+.columnActions {
+    display: flex;
+    gap: 8px;
+}
+.columnAction {
+    background: none;
+    border-radius: 50%;
+    padding: 4px;
+}
+.editForm {
+    position: relative;
+}
+.editButtons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 6px;
+    display: flex;
+    gap: 8px;
+}
+
+.editButtons button {
+    background: none;
+}

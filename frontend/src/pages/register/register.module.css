@@ -1,0 +1,29 @@
+.registerForm {
+    max-width: 448px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.registerForm input {
+    height: 48px;
+}
+
+.registerForm button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.registerPage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.submitButton {
+    transition: opacity 0.5s ease;
+}

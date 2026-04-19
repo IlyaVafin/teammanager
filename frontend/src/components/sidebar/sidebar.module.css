@@ -1,0 +1,175 @@
+.sidebar {
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    min-height: 100vh;
+    max-width: 256px;
+    padding: 16px;
+    flex: 1;
+}
+
+.sidebarAction {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    padding: 10px;
+    border-radius: 14px;
+    transition: background-color 0.5s ease;
+    cursor: pointer;
+}
+
+.teams {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+}
+
+.teamItem {
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    transition: background-color 0.5s ease;
+    position: relative;
+}
+
+.teamItem.active {
+    background-color: var(--primary);
+}
+
+.teamItem.active a {
+    color: var(--background);
+}
+
+.teamLink {
+    display: block;
+    color: var(--primary);
+    width: 100%;
+    transition: color 0.5s ease;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.action:hover {
+    background-color: var(--muted);
+}
+
+.action.active {
+    background-color: #f7f6f6;
+}
+
+.createCommand {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    padding: 8px;
+    font-size: 14px;
+    margin-top: 24px;
+}
+
+.teamModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 448px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.teamModal input {
+    height: 32px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.submitTeamModal {
+    width: 100%;
+    padding: 8px;
+}
+
+.close {
+    background: none;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+.teamActionsSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.inviteButton {
+    padding: 16px;
+}
+
+.inviteModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.inviteModal input {
+    height: 32px;
+}
+
+.submitInvite {
+    padding: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.teamOption {
+    background: none;
+}
+
+.teamOption.active {
+    color: white;
+}
+
+.options {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    padding: 8px;
+    top: 36px;
+    right: -100px;
+    z-index: 9;
+}
+.options button {
+    background: none;
+    border-radius: 8px;
+    padding: 8px;
+}
+.options button:hover {
+    background-color: var(--muted);
+}
