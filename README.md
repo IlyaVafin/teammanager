@@ -1,17 +1,104 @@
 # Как запустить
 
-- Backend:
-  docker-compose up -d --build
-  docker exec -it teammanager bash
-
-//Внутри контейнера
+### Backend:
+``` docker-compose up -d --build
+docker exec -it teammanager bash
 composer require laravel/reverb
 composer install
 php artisan reverb:install
 php artisan migrate
-//Ливаем с контейнера включаем вебсокет
 docker start teammanager_reverb
+```
+### Frontend:
 
-- Frontend:
- 
+```
+cd frontend
+npm i
+npm run dev
+```
 
+# Пример env 
+
+
+```
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:qY7ybUWtFIVUHi7NX/qgOMgP2zhxEaq5f+7wBHXkUt4=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=en_US
+
+APP_MAINTENANCE_DRIVER=file
+# APP_MAINTENANCE_STORE=database
+
+# PHP_CLI_SERVER_WORKERS=4
+
+BCRYPT_ROUNDS=12
+
+LOG_CHANNEL=stack
+LOG_STACK=single
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=teammanager
+DB_USERNAME=root
+DB_PASSWORD=root
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+SESSION_ENCRYPT=false
+SESSION_PATH=/
+SESSION_DOMAIN=null
+
+BROADCAST_CONNECTION=reverb
+FILESYSTEM_DISK=locala
+QUEUE_CONNECTION=redis
+
+CACHE_STORE=redis
+# CACHE_PREFIX=
+
+MEMCACHED_HOST=127.0.0.1
+
+MAIL_MAILER=log
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+VITE_APP_NAME="${APP_NAME}"
+
+REVERB_APP_ID=320321
+REVERB_APP_KEY=xzwao6bjmyqvtraosaih
+REVERB_APP_SECRET=akoybsht11m0jnrio3vu
+REVERB_HOST=teammanager_reverb
+REVERB_PORT=8081
+REVERB_SERVER_PORT=8081
+REVERB_SCHEME=http
+
+VITE_REVERB_APP_KEY="${REVERB_APP_KEY}"
+VITE_REVERB_HOST="${REVERB_HOST}"
+VITE_REVERB_PORT="${REVERB_PORT}"
+VITE_REVERB_SCHEME="${REVERB_SCHEME}"
+
+REDIS_CLIENT=phpredis
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+BROADCAST_CONNECTION=reverb
+```
