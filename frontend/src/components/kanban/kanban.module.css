@@ -76,3 +76,41 @@
 .editButtons button {
     background: none;
 }
+
+.task {
+    border-radius: 0;
+    display: flex;
+}
+.taskActions {
+    display: flex;
+    gap: 8px;
+}
+
+.taskActions button {
+    background: none;
+}
+
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.createTaskModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.submitCreateTask {
+    width: 100%;
+    padding: 8px 10px;
+}
+
+.fieldTask input {
+    height: 32px;
+}

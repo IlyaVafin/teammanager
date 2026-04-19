@@ -18,7 +18,7 @@ class AuthController extends Controller
         User::create($data);
 
         return response()->json([
-           "message" => "success"
+            "message" => "success"
         ], 201);
     }
 
@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        if(!auth()->attempt($data)) throw new UnauthorizedException();
+        if (!auth()->attempt($data)) throw new UnauthorizedException();
 
         $token = Str::uuid();
         $user = auth()->user();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("description");
             $table->dateTime('deadline');
             $table->integer('position')->default(0)->index();
-            $table->foreignUuid('column_id')->references('id')->on('columns');
+            $table->foreignUuid('column_id')->references('id')->on('columns')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -13,7 +13,8 @@ class Column extends Model
         "team_id"
     ];
 
-    public function tasks() {
-        return $this->hasMany(Task::class);
+    public function tasks()
+    {
+        return $this->hasMany(Task::class)->orderBy('position');
     }
 }

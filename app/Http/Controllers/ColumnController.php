@@ -19,10 +19,10 @@ class ColumnController extends Controller
 
     public function show(string $teamId)
     {
-        $team = Team::findOrFail($teamId);
-        $columns = $team->columns;
+        $columns = Team::with('columns.tasks')->findOrFail($teamId);
         return response()->json(["data" => [
-            "columns" => $columns,
+            "team_title" => $columns['name'],
+            "columns" => $columns['columns'],
         ]]);
     }
 

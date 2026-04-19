@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('columns', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string("title", 60);
-            $table->foreignUuid('team_id')->references('id')->on('teams');
+            $table->foreignUuid('team_id')->references('id')->on('teams')->cascadeOnDelete();
             $table->timestamps();
         });
     }

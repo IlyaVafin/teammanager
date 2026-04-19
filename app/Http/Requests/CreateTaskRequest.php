@@ -11,7 +11,7 @@ class CreateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class CreateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "title" => "required|string|min:1",
+            "description" => "required|string",
+            "deadline" => "required|date|after:today"
         ];
     }
 }

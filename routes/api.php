@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ColumnController;
 use App\Http\Controllers\InviteController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Middleware\CheckUser;
 use Illuminate\Http\Request;
@@ -24,6 +25,11 @@ Route::middleware(CheckUser::class)->group(function () {
     Route::get("/columns/{teamId}", [ColumnController::class, 'show']);
     Route::patch("/column/{columnId}", [ColumnController::class, 'update']);
     Route::delete("/column/{columnId}", [ColumnController::class, 'destroy']);
+
+    Route::post("/task/column/{columnId}", [TaskController::class, "store"]);
+    Route::delete("/task/{taskId}", [TaskController::class, 'destroy']);
+    Route::patch("/task/position", [TaskController::class, 'updatePosition']);
+    Route::patch("/task/{taskId}", [TaskController::class, 'update']);
 
     Route::get('/teams', [TeamController::class, 'index']);
     Route::get('/teams/{team}', [TeamController::class, 'show']);

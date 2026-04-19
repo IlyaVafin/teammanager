@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasUuids; 
+    protected $casts = [
+        'deadline' => 'datetime'
+    ];
     protected $fillable = [
         "title",
         "description",

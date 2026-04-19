@@ -1,7 +1,7 @@
 <?php
 
-use App\Broadcasting\TeamChannel;
-use App\Models\Team;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('Team.{team}', TeamChannel::class, ['guards' => ['reverb']]);
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});

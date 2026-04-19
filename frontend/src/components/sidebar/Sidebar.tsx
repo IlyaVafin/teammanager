@@ -36,11 +36,12 @@ const Sidebar = () => {
     const [showTeamModal, setShowTeamModal] = useState(false);
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
+
+
     const [currentClickedOption, setCurrentClickedOption] =
         useState<string>("");
     const location = useLocation();
     const params = useParams();
-    console.log(teams);
     useEffect(() => {
         async function getTeams() {
             try {
